@@ -79,3 +79,8 @@ const uploadUserScore = async (address, score) => {
         console.log(err);
     }
 }
+
+module.exports = {
+    randomizeQuizQuestions,
+    uploadUserScore,
+}
