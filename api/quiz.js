@@ -80,7 +80,27 @@ const uploadUserScore = async (address, score) => {
     }
 }
 
+const getUserStats = async (address) => {
+    try {
+        mongoose.connect(mongoURI)
+        const QuizUserData = mongoose.model('QuizUserData', QuizUserSchema, 'RHQuizUserData');
+
+        // check if user exists
+        const userQuery = await QuizUserData.findOne({ address });
+
+        if (!userQuery) {
+            return { highestPoints: 0, lowestPoints: 0, quizzesDoneAmount: 0, averagePoints: 0 }
+        } else {
+            const { highestPoints, lowestPoints, quizzesDoneAmount, averagePoints } = userQuery;
+            return { highestPoints, lowestPoints, quizzesDoneAmount, averagePoints };
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports = {
     randomizeQuizQuestions,
     uploadUserScore,
+    getUserStats,
 }
